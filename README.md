@@ -1,0 +1,1 @@
+# 🗂 swagfs - Swagger-UI FileSystem
