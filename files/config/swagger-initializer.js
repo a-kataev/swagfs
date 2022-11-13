@@ -1,5 +1,6 @@
 window.onload = function() {
   window.ui = SwaggerUIBundle({
+    url: "{{url}}",
     urls: {{urls}},
     dom_id: "#swagger-ui",
     deepLinking: true,
@@ -14,3 +15,4 @@ window.onload = function() {
     validatorUrl: null
   });
 };
+
