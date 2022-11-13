@@ -9,6 +9,13 @@ import (
 	"github.com/a-kataev/swagfs/tmpl"
 )
 
+type Layout string
+
+const (
+	BaseLayout       = "BaseLayout"
+	StandaloneLayout = "StandaloneLayout"
+)
+
 type URL struct {
 	URL  string `json:"url"`
 	Name string `json:"name,omitempty"`
@@ -16,7 +23,7 @@ type URL struct {
 
 type Config struct {
 	Urls   []URL  `json:"urls"`
-	Layout string `json:"layout"`
+	Layout Layout `json:"layout"`
 }
 
 var _ tmpl.File = (*Config)(nil)
@@ -29,7 +36,7 @@ func defaultConfig() *Config {
 				Name: "v1",
 			},
 		},
-		Layout: "BaseLayout",
+		Layout: BaseLayout,
 	}
 }
 
@@ -50,12 +57,24 @@ func (c *Config) TagFunc(w io.Writer, tag string) (int, error) {
 	case "layout":
 		return w.Write([]byte(c.Layout))
 	case "urls":
+		if c.Layout == BaseLayout {
+			return w.Write([]byte("null"))
+		}
+
 		b, err := json.Marshal(c.Urls)
 		if err != nil {
 			return 0, fmt.Errorf("urls: %v", err)
 		}
 
 		return w.Write(b)
+	case "url":
+		if c.Layout == BaseLayout {
+			if len(c.Urls) > 0 {
+				return w.Write([]byte(c.Urls[0].URL))
+			}
+		}
+
+		return 0, nil
 	}
 
 	return 0, nil
@@ -70,7 +89,7 @@ func (c *Config) AddURL(url, name string) *Config {
 	return c
 }
 
-func (c *Config) SetLayout(layout string) *Config {
+func (c *Config) SetLayout(layout Layout) *Config {
 	c.Layout = layout
 
 	return c
