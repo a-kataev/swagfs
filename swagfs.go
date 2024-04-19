@@ -4,7 +4,7 @@ import (
 	"io/fs"
 
 	"github.com/a-kataev/swagfs/files"
-	"github.com/a-kataev/swagfs/tmpl"
+	"github.com/a-kataev/swagfs/internal/tmpl"
 )
 
 type swagFS struct {

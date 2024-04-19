@@ -6,7 +6,7 @@ import (
 	"io"
 	"io/fs"
 
-	"github.com/a-kataev/swagfs/static"
+	"github.com/a-kataev/swagfs/internal/static"
 	"github.com/valyala/fasttemplate"
 )
 
