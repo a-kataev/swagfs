@@ -5,7 +5,7 @@
 Update dist files in `files/dist/*`
 
 ```bash
-./swagger-ui-dist.sh 4.15.5
+./swagger-ui-dist.sh 5.16.2
 ```
 
 ## Example
